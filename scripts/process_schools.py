@@ -17,10 +17,9 @@ locs['zipcode'] = np.nan;
 
 ## fetch address data from lat and lon values
 geolocator = Nominatim();
-count =0;
 for i in range(locs.shape[0]):
-    lat = locs_xref.iloc[i]['latitude'];
-    lon = locs_xref.iloc[i]['longitude'];
+    lat = locs.iloc[i]['latitude'];
+    lon = locs.iloc[i]['longitude'];
     lat_lon = str(lat) + ', ' + str(lon);
 
     try:
