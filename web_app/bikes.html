@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/script.js"></script>
+</head>
+<body ng-app="NYCBikes">
+	<div ng-controller="bikeController">
+		<p><input type="text"
+			placeholder="Search by Station Name"
+			onfocus="this.placeholder = ''"
+			ng-model="test.stationName">
+		</p>
+		<table>
+			<tr>
+				<td><strong>Station Name</strong></td>
+				<td><strong>Available Docks</strong></td>
+				<td><strong>Total Docks</strong></td>
+				<td><strong>Available Bikes</strong></td>
+				<td><strong>Last Communication</strong></td>
+				<td><strong>Status</strong></td>
+			</tr>
+  			<tr ng-repeat="x in data | filter : test">
+    			<td>{{ x.stationName }}</td>
+    			<td>{{ x.availableDocks }}</td>
+    			<td>{{ x.totalDocks }}</td>
+    			<td>{{ x.availableBikes }}</td>
+    			<td>{{ x.lastCommunicationTime }}</td>
+    			<td>{{ x.statusValue}}</td>
+  			</tr>
+		</table>
+	</div>
+</body>
+<style>
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+</html>

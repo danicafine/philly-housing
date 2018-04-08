@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/friendscript.js"></script>
+</head>
+<body ng-app="Friendships">
+	<div ng-controller="relationshipController">
+		<table>
+			<tr>
+				<td><strong>Name</strong></td>
+				<td><strong>Number of Friends</strong></td>
+			</tr>
+  			<tr ng-repeat="x in data">
+    			<td>{{ x.name }}</td>
+    			<td>{{ x.num_friends }}</td>
+  			</tr>
+		</table>
+		<form name="queryForm">
+			<input type="text" name="qname" ng-model="q">
+			<button ng-click="doSearch(queryForm.qname.$viewValue)">Search</button>
+		</form>
+		<table ng-table="relationships">	
+			<tr>
+				<td><strong>Login</strong></td>
+				<td><strong>Name</strong></td>
+				<td><strong>Sex</strong></td>
+				<td><strong>Relationship Status</strong></td>
+				<td><strong>Birth Year</strong></td>
+				<td><strong>Role</strong></td>
+			</tr>		
+  			<tr ng-repeat="y in t">
+    			<td>{{ y.login }}</td>
+    			<td>{{ y.name }}</td>
+    			<td>{{ y.sex }}</td>
+    			<td>{{ y.relationshipStatus }}</td>
+    			<td>{{ y.birthyear }}</td>
+    			<td>{{ y.role }}</td>
+  			</tr>
+  		</table>
+
+	</div>
+</body>
+<style>
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+</html>
