@@ -16,12 +16,15 @@ app.get('/', function(request, response) {
 	response.sendFile(__dirname + '/' + 'index.html')
 })
 
-//conn.query("show tables;", function (err, rows, fields) {
-//	if (err) {console.log(err)}
-//	else {
-//		console.log(rows)
-//	}
-//})
+app.get('/search', function(request, response) {
+	response.sendFile(__dirname + '/' + 'search.html')
+})
+
+app.get('/search.js', function(request, response) {
+	console.log("hello");
+	response.sendFile(__dirname + '/js/search.js')
+})
+
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
   console.log(__dirname)

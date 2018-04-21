@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Search Page</title>
+	
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body ng-app="Searcher">
+	<div ng-controller="bikeController">
+		<p><input type="text"
+			placeholder="Search by Station Name"
+			onfocus="this.placeholder = ''"
+			ng-model="test.stationName">
+		</p>
+		<table>
+			<thead>
+                <tr>
+                   <th ng-repeat="header in headers"  
+                     class="{{header.name}}" custom-sort order="header.name" sort="sort"
+                    >{{ header.name }}
+
+                        </th> 
+                  </tr>
+            </thead>
+  			<tr ng-repeat="x in data | filter : test">
+    			<td>{{ x.stationName }}</td>
+    			<td>{{ x.availableDocks }}</td>
+    			<td>{{ x.totalDocks }}</td>
+    			<td>{{ x.availableBikes }}</td>
+    			<td>{{ x.lastCommunicationTime }}</td>
+    			<td>{{ x.statusValue}}</td>
+  			</tr>
+		</table>
+	</div>
+	
+<!--	<script type="text/javascript" src="angular.min.js"></script>-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  	<script src="js/materialize.js"></script>
+  	<script src="js/init.js"></script>
+	<script src="/search.js"></script>
+</body>
+</html>
