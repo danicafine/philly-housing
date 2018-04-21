@@ -13,30 +13,26 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
-<body ng-app="Neighborhood Viewer">
-	<div ng-controller="bikeController">
-		<p><input type="text"
+<body ng-app="NeighborhoodViewer">
+	<div ng-controller="nController">
+		<input type="text"
 			placeholder="Search by Station Name"
 			onfocus="this.placeholder = ''"
-			ng-model="test.stationName">
-		</p>
+			ng-model="test.zip">
 		<table>
+<!--
 			<thead>
                 <tr>
                    <th ng-repeat="header in headers"  
                      class="{{header.name}}" custom-sort order="header.name" sort="sort"
-                    >{{ header.name }}
-
-                        </th> 
+                    >{{ header.name }}</th> 
                   </tr>
             </thead>
-  			<tr ng-repeat="x in data | filter : test">
-    			<td>{{ x.stationName }}</td>
-    			<td>{{ x.availableDocks }}</td>
-    			<td>{{ x.totalDocks }}</td>
-    			<td>{{ x.availableBikes }}</td>
-    			<td>{{ x.lastCommunicationTime }}</td>
-    			<td>{{ x.statusValue}}</td>
+-->
+  			<tr ng-repeat="x in data">
+    			<td>{{ x.zipcode }}</td>
+    			<td>{{ x.avg_market_value }}</td>
+    			<td>{{ x.avg_sale_price }}</td>
   			</tr>
 		</table>
 	</div>
@@ -45,6 +41,6 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   	<script src="js/materialize.js"></script>
   	<script src="js/init.js"></script>
-	<script src="/search.js"></script>
+	<script src="/neighborhood_prices.js"></script>
 </body>
 </html>

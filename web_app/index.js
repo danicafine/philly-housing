@@ -16,13 +16,21 @@ app.get('/', function(request, response) {
 	response.sendFile(__dirname + '/' + 'index.html')
 })
 
-app.get('/search', function(request, response) {
-	response.sendFile(__dirname + '/' + 'search.html')
+app.get('/neighborhood_prices', function(request, response) {
+	response.sendFile(__dirname + '/' + 'neighborhood_prices.html')
 })
 
-app.get('/search.js', function(request, response) {
+app.get('/neighborhood_prices.js', function(request, response) {
 	console.log("hello");
-	response.sendFile(__dirname + '/js/search.js')
+	response.sendFile(__dirname + '/js/neighborhood_prices.js')
+})
+
+app.get('/q1_cache.json', function(request, response) {
+	response.sendFile(__dirname + '/json/q1_cache.json')
+})
+
+app.get('/q1_header.json', function(request, response) {
+	response.sendFile(__dirname + '/json/q1_header.json')
 })
 
 app.listen(app.get('port'), function() {

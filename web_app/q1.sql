@@ -1,6 +1,6 @@
 USE mysql450;
 select
-         l.zipcode,
+         substr(l.zipcode, 1, 5) as zipcode,
          avg(pa.market_value) as avg_market_value,
          avg(ps.sale_price) as avg_sale_price
      from property_sold ps
@@ -11,4 +11,4 @@ select
      join locations l on
           l.latitude = px.latitude and
           l.longitude = px.longitude
-     group by l.zipcode;
+     group by substr(l.zipcode, 1, 5);
