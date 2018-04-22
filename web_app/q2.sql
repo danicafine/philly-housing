@@ -1,7 +1,7 @@
 select
          s.location_name,
          s.location_type
-     from property_location_xref px on
+     from property_location_xref px
      cross
      join locations l
      join septa_location_xref sx on

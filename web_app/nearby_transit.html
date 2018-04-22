@@ -16,8 +16,8 @@
 <body ng-app="TransitViewer">
 	<div ng-controller="nController">
 		<form name="queryForm">
-			<input type="text" name="id" ng-model="q">
-			<input type="text" name="dist" ng-model="r">
+			<input type="text" name="id" placeholder="Location ID (9-Digit Number)" ng-model="q">
+			<input type="text" name="dist" placeholder="Search Distance (miles)" ng-model="r">
 			<button ng-click="doSearch(queryForm.id.$viewValue, queryForm.dist.$viewValue)">Search</button>
 		</form>
 		<table>

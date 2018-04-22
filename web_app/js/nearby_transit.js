@@ -13,7 +13,7 @@ app.controller('nController', function($scope, $http) {
 	};
 	
 	$scope.doSearch = function (id, dist) {
-		var req = $http.get("/nearby_transit/" + dist + "/" + id);
+		var req = $http.get("/nearby_transit/" + id + "/" + dist);
 		req.success(function(t) {
 			$scope.t = t;
 		})

@@ -34,7 +34,8 @@ app.get('/nearby_transit.js', function(request, response) {
 })
 
 app.get('/nearby_transit/:id/:dist', function(request, response) {
-	text = 'select s.location_name, s.location_type from property_location_xref px on \
+	var dist_in_mi = parseFloat(request.params.dist) / 69;
+	var text = 'select s.location_name, s.location_type from property_location_xref px \
      cross \
      join locations l \
      join septa_location_xref sx on \
@@ -42,18 +43,15 @@ app.get('/nearby_transit/:id/:dist', function(request, response) {
           sx.longitude = l.longitude \
      join septa_locations s on \
           sx.septa_id = s.septa_id \
-     where px.property_id = $PROPERTY_ID -- SELECT FOR A GIVEN PROPERTY \
-       and abs(l.latitude - px.latitude) <= $DIST \
-       and abs(l.longitude - px.longitude) <= $DIST';
+     where px.property_id = ' + request.params.id + ' \
+       and abs(l.latitude - px.latitude) <= ' + dist_in_mi +  ' \
+       and abs(l.longitude - px.longitude) <= ' + dist_in_mi;
 	console.log(text);
-	console.log(request.params.dist);
-	console.log(request.params.id);
-	var dist_in_mi = parseFloat(request.params.dist) / 69;
-	var formatted = text.replace("$DIST", dist_in_mi.toString());
-	formatted = formatted.replace("$PROPERTY_ID", parseInt(request.params.id));
-	conn.query(formatted, function(err, rows, fields) {
+	conn.query(text, function(err, rows, fields) {
+		console.log("query complete")
 		if (err) console.log(err);
 		else {
+			console.log(rows);
 			response.json(rows);
 		}
 	})
