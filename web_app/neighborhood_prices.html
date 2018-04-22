@@ -15,12 +15,59 @@
 </head>
 <body ng-app="NeighborhoodViewer">
 	<div ng-controller="nController">
+<!--
 		<input type="text"
 			placeholder="Search by Station Name"
 			onfocus="this.placeholder = ''"
 			ng-model="test.zip">
+-->		<div style = "display: flex;flex-direction: row;width:100%">
+			<label style="min-width:11.5%">Zipcode</label>
+			<input  type="text"
+				   display="inline"
+			id="zipcode"
+			defaultValue="Filter by Zipcode"
+			placeholder="Filter by Zipcode"
+			maxlength="30"
+				   ng-model="test.zipcode">
+		</div>
+<!--			<span></span>-->
+<!--		<div style = "float:left, max-width=150px">-->
+		<div style = "display: flex;flex-direction: row;width:100%">
+			<label style="width:30%">Minimum Market Price</label>
+			<input type="text"
+				   display="inline"
+			maxlength='30'
+			id='mkt'
+			placeholder="Min Market Price"
+			ng-model="test.min_market">
+			<span></span>
+			<label style="width:30%">Maximum Market Price</label>
+			<input type="text"
+				   display="inline"
+			maxlength='30'
+			id='mkt'
+			placeholder="Max Market Price"
+			ng-model="test.max_market">
+		</div>
+		<div style = "display: flex;flex-direction: row;width:100%">
+			<label style="width:30%">Minimum Sale Price</label>
+			<input type="text"
+				   display="inline"
+
+			id='mkt'
+			placeholder="Min Sale Price"
+			ng-model="test.min_sale">
+			<span></span>
+			<label style="width:30%">Maximum Sale Price</label>
+			<input type="text"
+				   display="inline"
+			maxlength='30'
+			id='mkt'
+			placeholder="Max Sale Price"
+			ng-model="test.max_sale">
+		</div>
+<!--		</div>-->
 		<table>
-<!--
 			<thead>
                 <tr>
                    <th ng-repeat="header in headers"  
@@ -28,8 +75,7 @@
                     >{{ header.name }}</th> 
                   </tr>
             </thead>
--->
-  			<tr ng-repeat="x in data">
+  			<tr ng-repeat="x in data | filter:byRange('avg_market_value', test.min_market, test.max_market) | filter:byRange('avg_market_value', test.min_sale, test.max_sale) | filter : test.zipcode">
     			<td>{{ x.zipcode }}</td>
     			<td>{{ x.avg_market_value }}</td>
     			<td>{{ x.avg_sale_price }}</td>

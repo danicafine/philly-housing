@@ -9014,6 +9014,10 @@ input[type=range].focused:focus:not(.active)::-ms-thumb {
   padding: 0 20px;
 }
 
+input {
+	display: inline
+}
+
 /* Media Queries */
 @media only screen and (min-width: 601px) {
   .timepicker-modal {
