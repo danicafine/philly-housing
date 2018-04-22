@@ -127,6 +127,68 @@ FROM mysql450.`crime_location_xref`;
 
 
 // SCHOOLS
+Schools:
+LOAD
+    school_id as [School ID], 
+    'School ' & school_id as [Object ID],
+    'School' as [Object Type] 
+    name as [School Name],
+    phone as Phone,
+    grade_range as [Grade Range],
+    grade_level as [Grade Level],
+    size as Size,
+    type as [School Type],
+    subtype as [School Subtype]      
+;
+SQL
+SELECT
+    `school_id`, 
+    name, 
+    phone,
+    `grade_range`, 
+    `grade_level`, 
+    size,
+    type,
+    subtype
+FROM mysql450.schools;
+
+CONCATENATE(Locations_Temp)
+LOAD
+    'School ' & school_id as [Object ID],
+    GeoMakePoint(latitude, longitude) as latitude_longitude
+;
+SQL
+SELECT
+    `school_id`,
+    latitude, 
+    longitude
+FROM mysql450.`school_location_xref`; 
+
+
+// SEPTA Locations
+
+SEPTA:
+LOAD 
+    *
+;
+SQL
+SELECT
+    `septa_id`,
+    `location_name`,
+    `location_type`
+FROM mysql450.septa_locations;
+
+CONCATENATE(Locations_Temp)
+LOAD
+    'SEPTA ' & septa_id as [Object ID],
+    GeoMakePoint(latitude, longitude) as latitude_longitude
+;
+SQL
+SELECT
+    `septa_id`,
+    latitude, 
+    longitude
+FROM mysql450.`septa_location_xref`; 
 
 
 // DATES
