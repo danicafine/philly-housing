@@ -21,8 +21,15 @@ app.get('/neighborhood_prices', function(request, response) {
 })
 
 app.get('/neighborhood_prices.js', function(request, response) {
-	console.log("hello");
 	response.sendFile(__dirname + '/js/neighborhood_prices.js')
+})
+
+app.get('/neighborhood_safety', function(request, response) {
+	response.sendFile(__dirname + '/' + 'neighborhood_safety.html')
+})
+
+app.get('/neighborhood_safety.js', function(request, response) {
+	response.sendFile(__dirname + '/js/neighborhood_safety.js')
 })
 
 app.get('/nearby_transit', function(request, response) {
@@ -49,6 +56,37 @@ app.get('/nearby_transit/:id/:dist', function(request, response) {
 	console.log(text);
 	conn.query(text, function(err, rows, fields) {
 		console.log("query complete")
+		if (err) console.log(err);
+		else {
+			console.log(rows);
+			response.json(rows);
+		}
+	})
+})
+
+app.get('/nearby_schools', function(request, response) {
+	response.sendFile(__dirname + '/' + 'nearby_schools.html')
+})
+
+app.get('/nearby_schools.js', function(request, response) {
+	response.sendFile(__dirname + '/js/nearby_schools.js')
+})
+
+app.get('/nearby_schools/:size/', function(request, response) {
+	var text = "select\
+         l.zipcode,\
+         s.type,\
+         s.subtype,\
+         s.size\
+     from schools s\
+     join school_location_xref sx on\
+          s.school_id = sx.school_id\
+     join locations l on\
+          l.latitude = sx.latitude and\
+          l.longitude = sx.longitude\
+     where s.size > 0 AND s.size <= " + request.params.size;
+	console.log(text);
+	conn.query(text, function(err, rows, fields) {
 		if (err) console.log(err);
 		else {
 			console.log(rows);

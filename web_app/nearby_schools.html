@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Search Page</title>
+	
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body ng-app="SchoolViewer">
+	<div ng-controller="nController">
+		<form name="queryForm">
+			<input type="text" name="size" placeholder="Maximum School Size" ng-model="q">
+			<button ng-click="doSearch(queryForm.size.$viewValue)">Search</button>
+		</form>
+		<div>
+			<p>Show only schools of type:</p>
+		</div>
+		<div ng-repeat = "item in items">
+        	<input type="checkbox" style="-webkit-appearance:checkbox" ng-model="filterItems[item.name]"> {{item.name}}
+      	</div>
+		<table>
+			<thead>
+                <tr>
+                   <th ng-repeat="header in ['Zip Code', 'School Type', 'Student Population']"  
+                     class="{{header.name}}" custom-sort order="header.name" sort="sort"
+                    >{{ header}}</th> 
+                  </tr>
+            </thead>
+  			<tr ng-repeat="x in t | filter:testFilter">
+    			<td>{{ x.zipcode }}</td>
+				<td>{{ x.subtype }}</td>
+				<td>{{ x.size }}</td>
+  			</tr>
+		</table>
+	</div>
+	
+<!--	<script type="text/javascript" src="angular.min.js"></script>-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  	<script src="js/materialize.js"></script>
+  	<script src="js/init.js"></script>
+	<script src="/nearby_schools.js"></script>
+</body>
+</html>
