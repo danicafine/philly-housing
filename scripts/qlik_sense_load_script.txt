@@ -1,0 +1,183 @@
+// MAIN
+
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;-$#,##0.00';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET FirstWeekDay=6;
+SET BrokenWeeks=1;
+SET ReferenceDay=0;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-US';
+SET CreateSearchIndexOnReload=1;
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+LIB CONNECT TO 'mysql450';
+
+// PROPERTIES
+
+Housing:
+LOAD 
+    property_id as [Property ID],
+    'Property ' & property_id as [Object ID],
+    'Property' as [Object Type],
+    CAPITALIZE(building_description) as [Building Description],
+    CAPITALIZE(category_description) as [Category Description],
+    fireplaces as Fireplaces,
+    garage_spaces as [Garage Spaces],
+    bathroom_ct as [Bathroom Count],
+    bedroom_ct as [Bedroom Count],
+    room_ct as [Room Count],
+    story_ct as [Story Count],
+    livable_area as [Livable Area],
+    year_built as [Year Built]
+;
+SQL
+SELECT 
+	`property_id`,
+    `building_description`,
+    `category_description`,
+    `fireplaces`, 
+    `garage_spaces`,
+    `bathroom_ct`, 
+    `bedroom_ct`, 
+    `room_ct`, 
+    `story_ct`, 
+    `livable_area`, 
+    `year_built`
+FROM mysql450.properties p;
+
+Locations_Temp:
+LOAD
+    'Property ' & property_id as [Object ID],
+    GeoMakePoint(latitude, longitude) as latitude_longitude
+;
+SQL
+SELECT
+    `property_id`,
+    latitude, 
+    longitude
+FROM mysql450.`proprety_location_xref`; 
+
+Housing_Sales:
+LOAD 
+    property_id as [Property ID],
+    date#(date, 'YYYYMMDD') as Date_key,
+    date as [Sale Date],
+    sale_price as [Sale Price]
+;
+SQL
+SELECT 
+    `property_id`,
+    date,
+    `sale_price`
+FROM mysql450.`property_sold`;
+
+Housing_Assessments:
+LOAD 
+    property_id as [Proprety ID],
+    date#(date, 'YYYYMMDD') as Date_key,
+    date as [Assessment Date],
+    market_value as [Market Value]
+;
+SQL
+SELECT 
+    `property_id`,
+    date,
+    `market_value`
+FROM mysql450.`property_assessed`;  
+
+
+// CRIMES
+
+Crimes:
+LOAD 
+    crime_id as [Crime ID], 
+    'Crime ' & crime_id as [Object ID],
+    'Crime' as [Object Type],
+    description as Description,
+    date#(date, 'YYYYMMDD') as Date_key,
+    date as [Crime Date]  
+;
+SQL
+SELECT 
+    `crime_id`,
+    description,
+    date
+FROM mysql450.crimes;
+
+CONCATENATE(Locations_Temp)
+LOAD
+    'Crime ' & crime_id as [Object ID],
+    GeoMakePoint(latitude, longitude) as latitude_longitude
+;
+SQL
+SELECT
+    `crime_id`,
+    latitude, 
+    longitude
+FROM mysql450.`crime_location_xref`; 
+
+
+// SCHOOLS
+
+
+// DATES
+
+let vToday = Date(Today(),'MM/DD/YYYY');
+
+CalendarMaster:
+LOAD
+	*,
+   dual(left([Month-Year],1),Date(MonthStart([Event Date]), 'MMM-YYYY')) as [Month Name Short],
+   dual(Year & '-' & Quarter, Year & Ceil(Month([Event Date]) / 3)) as [Year-Quarter], // Excludes Weekends	
+   if(weekday(Date)<5,Date,null()) as [Weekday Date],                                  // Excludes Weekends
+   if(weekday(Date)<5,'N','Y') as [Show Weekends?],                                    // weekday(date) Week day. Returns an integer between 0-6. 
+   if(weekday(Date)<5,'Exclude Weekends',null()) as [Exclude Weekends],                // weekday(date) Week day. Returns an integer between 0-6. 
+   Date(WeekStart(Date,0,-1),'MM/DD/YY') as [Week Starting],	                       // Changed offset to start on a Sunday vs Monday
+   Date(WeekEnd(Date,0,-1),'MM/DD/YY') as [Week Ending],	                           // Changed offset to start on a Sunday vs Monday   
+   dual(Date([Date]) &'-'& WeekDay([Date]),[Event Date]) AS DateWithDay,   
+   //applymap('MonthNum2Name_map',MonthNum) as MonthName,
+   if( InYearToDate([Event Date],'$(vToday)',-1),1,0) as IsInPriorYTD,
+   if( InYearToDate([Event Date],'$(vToday)',0),1,0) as IsInYTD,
+   if( InYearToDate([Event Date],'$(vToday)'-7,0),1,0) as IsCompleteWeeks,    
+   if([Event Date] < MonthStart('$(vToday)'),1,0) as IsCompleteMonths,  
+   If( DayNumberOfQuarter([Event Date]) <= DayNumberOfQuarter('$(vToday)'), 1, 0) as IsInQTD,
+   If( Day([Event Date]) <= Day('$(vToday)'), 1, 0) as IsInMTD,
+   If( Month([Event Date]) = Month('$(vToday)'), 1, 0) as IsCurrentMonth,
+   If( Month(AddMonths([Event Date],1)) = Month('$(vToday)'), 1, 0) as IsLastMonth,
+   if( Date#(monthend([Event Date]), 'MM/DD/YYYY') = Date#([Event Date], 'MM/DD/YYYY'), 1, 0) as MonthEnd,
+   if(Day = 7, 1, if(Day = 14, 2, if(Day = 21, 3, if(Day = 28 and MonthNum <> 2, 4, if(Day >= 28, 'Month End'))))) as [Snapshot Week]
+;
+LOAD
+	Date_key,
+	Date([Event Date],'MM/DD/YY') as Date,
+    Date([Event Date]) AS [Event Date],
+    Year([Event Date]) AS Year,
+    'Q' & Ceil(Month([Event Date]) / 3) AS Quarter, 
+	Date(MonthStart([Event Date]), 'MMM-YYYY') as [Month-Year],       
+    Month([Event Date]) As Month,
+    num(Month([Event Date])) As MonthNum,
+    Day([Event Date]) As Day,
+    WeekDay([Event Date]) as [WeekDay], 
+    Week(Date([Event Date],'YYYYMMDD')) & '-' & WeekYear(Date([Event Date], 'YYYYMMDD')) as [Week-Year],           
+    Week([Event Date]) As Week
+    ;
+LOAD
+	Date_key,
+	Date_key as [Event Date] 
+;
+LOAD
+	NUM(fieldvalue('Date_key',iterno())) as Date_key
+AUTOGENERATE 1
+WHILE len(fieldvalue('Date_key',iterno()))
+;
+
+exit script;

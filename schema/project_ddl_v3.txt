@@ -46,6 +46,7 @@ CREATE TABLE crimes (
     date        INTEGER NOT NULL,
     description VARCHAR(100),
     PRIMARY KEY (crime_id)
+    FOREIGN KEY (date) REFERENCES dates
 );
 
 CREATE TABLE crime_location_xref (
