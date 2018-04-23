@@ -16,8 +16,8 @@
 <body ng-app="SafetyViewer">
 	<div ng-controller="nController">
 		<form name="queryForm">
-			<input type="text" name="start" placeholder="Starting Month (MM)" ng-model="q">
-			<input type="text" name="end" placeholder="End Month (MM)" ng-model="r">
+			<input type="text" name="start" placeholder="Starting Month (YYYYMM)" ng-model="q">
+			<input type="text" name="end" placeholder="End Month (YYYYMM)" ng-model="r">
 			<button ng-click="doSearch(queryForm.start.$viewValue, queryForm.end.$viewValue)">Search</button>
 		</form>
 		<table>

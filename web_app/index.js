@@ -161,7 +161,7 @@ app.get('/safety_trends/:start/:end', function(request, response) {
 				on\
 					 abs(l.latitude - cx.latitude) <= 0.01 and\
 					 abs(l.longitude - cx.longitude) <= 0.01\
-				where zipcode is not null and substr(c.date, 1, 6) = 2017"  + request.params.start+ "\
+				where zipcode is not null and substr(c.date, 1, 6) = "  + request.params.start+ "\
 				group by zipcode\
 				) e\
 				join (\
@@ -176,7 +176,7 @@ app.get('/safety_trends/:start/:end', function(request, response) {
 				on\
 					 abs(l.latitude - cx.latitude) <= 0.01 and\
 					 abs(l.longitude - cx.longitude) <= 0.01\
-				where zipcode is not null and substr(c.date, 1, 6) = 2017" + request.params.end	+ "\
+				where zipcode is not null and substr(c.date, 1, 6) = " + request.params.end	+ "\
 				group by zipcode\
 				) l\
 				on e.zipcode = l.zipcode"
