@@ -25,16 +25,17 @@
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
-  </nav>
+  	</nav>
+	
 	<div ng-controller="nController">
-		<form name="queryForm">
+		<form name="queryForm" class="center">
 			<input type="text" name="size" placeholder="Maximum School Size" ng-model="q">
 			<button ng-click="doSearch(queryForm.size.$viewValue)">Search</button>
 		</form>
 		<div>
 			<p>Show only schools of type:</p>
 		</div>
-		<div ng-repeat = "item in items">
+		<div class="nav-wrapper container" ng-repeat = "item in items">
         	<input type="checkbox" style="-webkit-appearance:checkbox" ng-model="filterItems[item.name]"> {{item.name}}
       	</div>
 		<table>

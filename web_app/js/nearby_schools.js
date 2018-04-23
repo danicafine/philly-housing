@@ -19,16 +19,6 @@ app.controller('nController', function($scope, $http) {
 	$scope.testFilter = function (item) {
     	return $scope.filterItems[item.subtype];
   	};
-	$scope.byRange = function (fieldName, minValue, maxValue) {
-	  if (minValue >= maxValue || maxValue === undefined || minValue === undefined) {
-		  minValue = Number.MIN_VALUE;
-		  maxValue = Number.MAX_VALUE;
-	  }
-	  return function predicateFunc(item) {
-		return minValue <= item[fieldName] && item[fieldName] <= maxValue;
-	  };
-	};
-	
 	$scope.doSearch = function (size) {
 		var req = $http.get("/nearby_schools/" + size);
 		req.success(function(t) {
