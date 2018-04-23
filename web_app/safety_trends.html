@@ -13,25 +13,25 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
-<body ng-app="TrendViewer">
+<body ng-app="SafetyViewer">
 	<div ng-controller="nController">
 		<form name="queryForm">
-			<input type="text" name="year" placeholder="Year (YYYY)" ng-model="q">
-			<input type="text" name="month" placeholder="Month (MM)" ng-model="r">
-			<input type="text" name="day" placeholder="Day (DD)" ng-model="s">
-			<button ng-click="doSearch(queryForm.year.$viewValue, queryForm.month.$viewValue, queryForm.day.$viewValue)">Search</button>
+			<input type="text" name="start" placeholder="Starting Month (MM)" ng-model="q">
+			<input type="text" name="end" placeholder="End Month (MM)" ng-model="r">
+			<button ng-click="doSearch(queryForm.start.$viewValue, queryForm.end.$viewValue)">Search</button>
 		</form>
 		<table>
 			<thead>
                 <tr>
-                   <th ng-repeat="header in ['Zipcode', 'Market Indicator']"  
+                   <th ng-repeat="header in ['Zipcode', 'Month','Market Indicator']"  
                      class="{{header}}" custom-sort order="header.name" sort="sort"
                     >{{ header}}</th> 
                   </tr>
             </thead>
   			<tr ng-repeat="x in t ">
     			<td>{{ x.zipcode }}</td>
-    			<td>{{ x.market_indicator }}</td>
+				<td>{{ x.month }}</td>
+    			<td>{{ x.prcnt_change }}</td>
   			</tr>
 		</table>
 	</div>
@@ -40,6 +40,6 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   	<script src="js/materialize.js"></script>
   	<script src="js/init.js"></script>
-	<script src="/zipcode_trends.js"></script>
+	<script src="/safety_trends.js"></script>
 </body>
 </html>

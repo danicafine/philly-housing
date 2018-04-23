@@ -138,6 +138,60 @@ app.get('/zipcode_trends/:date', function(request, response) {
 	})
 })
 
+app.get('/safety_trends', function(request, response) {
+	response.sendFile(__dirname + '/' + 'safety_trends.html')
+})
+
+app.get('/safety_trends.js', function(request, response) {
+	response.sendFile(__dirname + '/js/safety_trends.js')
+})
+
+app.get('/safety_trends/:start/:end', function(request, response) {
+	var text = "select e.zipcode, ((l.crime_ct - e.crime_ct) / e.crime_ct) as prcnt_change\
+				from\
+				(\
+				select zipcode, count(cx.crime_id) as crime_ct\
+				from mysql450.crime_location_xref cx\
+				join crimes c on cx.crime_id = c.crime_id\
+				left outer join ( \
+					select substr(zipcode, 1,5) as zipcode, avg(latitude) as latitude, avg(longitude) as longitude \
+					from mysql450.locations\
+					where zipcode <> 0\
+					group by substr(zipcode, 1,5) ) l \
+				on\
+					 abs(l.latitude - cx.latitude) <= 0.01 and\
+					 abs(l.longitude - cx.longitude) <= 0.01\
+				where zipcode is not null and substr(c.date, 1, 6) = 2017"  + request.params.start+ "\
+				group by zipcode\
+				) e\
+				join (\
+				select zipcode, count(cx.crime_id) as crime_ct\
+				from mysql450.crime_location_xref cx\
+				join crimes c on cx.crime_id = c.crime_id\
+				left outer join ( \
+					select substr(zipcode, 1,5) as zipcode, avg(latitude) as latitude, avg(longitude) as longitude \
+					from mysql450.locations\
+					where zipcode <> 0\
+					group by substr(zipcode, 1,5) ) l \
+				on\
+					 abs(l.latitude - cx.latitude) <= 0.01 and\
+					 abs(l.longitude - cx.longitude) <= 0.01\
+				where zipcode is not null and substr(c.date, 1, 6) = 2017" + request.params.end	+ "\
+				group by zipcode\
+				) l\
+				on e.zipcode = l.zipcode"
+	console.log(text);
+	conn.query(text, function(err, rows, fields) {
+		console.log("query complete")
+		if (err) console.log(err);
+		else {
+			console.log(rows);
+			response.json(rows);
+		}
+	})
+})
+
+
 app.get('/q1_cache.json', function(request, response) {
 	response.sendFile(__dirname + '/json/q1_cache.json')
 })
