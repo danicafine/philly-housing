@@ -1,0 +1,157 @@
+[
+	{
+		"zipcode" : 19107,
+		"avg_market_value" : 172375.1250,
+		"avg_sale_price" : 1.0000
+	},
+	{
+		"zipcode" : 19111,
+		"avg_market_value" : 191607.6923,
+		"avg_sale_price" : 158246.2692
+	},
+	{
+		"zipcode" : 19114,
+		"avg_market_value" : 84214.5714,
+		"avg_sale_price" : 134582.4286
+	},
+	{
+		"zipcode" : 19115,
+		"avg_market_value" : 240097.0303,
+		"avg_sale_price" : 170771.4848
+	},
+	{
+		"zipcode" : 19118,
+		"avg_market_value" : 436600.0000,
+		"avg_sale_price" : 246000.3333
+	},
+	{
+		"zipcode" : 19119,
+		"avg_market_value" : 420225.0625,
+		"avg_sale_price" : 437202.0000
+	},
+	{
+		"zipcode" : 19120,
+		"avg_market_value" : 121098.1538,
+		"avg_sale_price" : 52574.3333
+	},
+	{
+		"zipcode" : 19124,
+		"avg_market_value" : 144356.5435,
+		"avg_sale_price" : 89462.5870
+	},
+	{
+		"zipcode" : 19125,
+		"avg_market_value" : 344072.8710,
+		"avg_sale_price" : 233472.1129
+	},
+	{
+		"zipcode" : 19128,
+		"avg_market_value" : 237037.6250,
+		"avg_sale_price" : 211200.1250
+	},
+	{
+		"zipcode" : 19129,
+		"avg_market_value" : 207800.0000,
+		"avg_sale_price" : 238912.6250
+	},
+	{
+		"zipcode" : 19131,
+		"avg_market_value" : 168269.0625,
+		"avg_sale_price" : 172252.8750
+	},
+	{
+		"zipcode" : 19132,
+		"avg_market_value" : 55801.3529,
+		"avg_sale_price" : 167167.0588
+	},
+	{
+		"zipcode" : 19133,
+		"avg_market_value" : 113792.2500,
+		"avg_sale_price" : 769667.0000
+	},
+	{
+		"zipcode" : 19134,
+		"avg_market_value" : 87503.1951,
+		"avg_sale_price" : 77612.1707
+	},
+	{
+		"zipcode" : 19135,
+		"avg_market_value" : 52259.2727,
+		"avg_sale_price" : 77039.5000
+	},
+	{
+		"zipcode" : 19136,
+		"avg_market_value" : 106459.1818,
+		"avg_sale_price" : 96217.3182
+	},
+	{
+		"zipcode" : 19137,
+		"avg_market_value" : 151066.6667,
+		"avg_sale_price" : 130000.0000
+	},
+	{
+		"zipcode" : 19139,
+		"avg_market_value" : 54975.2500,
+		"avg_sale_price" : 27000.2500
+	},
+	{
+		"zipcode" : 19140,
+		"avg_market_value" : 49771.1429,
+		"avg_sale_price" : 20151.7143
+	},
+	{
+		"zipcode" : 19141,
+		"avg_market_value" : 76700.0000,
+		"avg_sale_price" : 75000.0000
+	},
+	{
+		"zipcode" : 19142,
+		"avg_market_value" : 691758.4286,
+		"avg_sale_price" : 35927.2143
+	},
+	{
+		"zipcode" : 19143,
+		"avg_market_value" : 96890.9000,
+		"avg_sale_price" : 71333.3167
+	},
+	{
+		"zipcode" : 19144,
+		"avg_market_value" : 108170.0000,
+		"avg_sale_price" : 77131.1000
+	},
+	{
+		"zipcode" : 19146,
+		"avg_market_value" : 440351.3158,
+		"avg_sale_price" : 491272.7105
+	},
+	{
+		"zipcode" : 19147,
+		"avg_market_value" : 465900.2000,
+		"avg_sale_price" : 371000.2000
+	},
+	{
+		"zipcode" : 19148,
+		"avg_market_value" : 325471.2500,
+		"avg_sale_price" : 176525.6875
+	},
+	{
+		"zipcode" : 19149,
+		"avg_market_value" : 127837.2558,
+		"avg_sale_price" : 80618.5814
+	},
+	{
+		"zipcode" : 19150,
+		"avg_market_value" : 215100.0000,
+		"avg_sale_price" : 215000.0000
+	},
+	{
+		"zipcode" : 19152,
+		"avg_market_value" : 178311.2222,
+		"avg_sale_price" : 139457.5000
+	},
+	{
+		"zipcode" : 19154,
+		"avg_market_value" : 130629.2895,
+		"avg_sale_price" : 98658.1579
+	}
+]

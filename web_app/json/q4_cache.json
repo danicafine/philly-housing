@@ -1,0 +1,186 @@
+[
+	{
+		"zipcode" : 19118,
+		"crime_ct" : 299
+	},
+	{
+		"zipcode" : 19114,
+		"crime_ct" : 383
+	},
+	{
+		"zipcode" : 19116,
+		"crime_ct" : 398
+	},
+	{
+		"zipcode" : 19115,
+		"crime_ct" : 412
+	},
+	{
+		"zipcode" : 19154,
+		"crime_ct" : 758
+	},
+	{
+		"zipcode" : 19129,
+		"crime_ct" : 794
+	},
+	{
+		"zipcode" : 19152,
+		"crime_ct" : 865
+	},
+	{
+		"zipcode" : 19137,
+		"crime_ct" : 1031
+	},
+	{
+		"zipcode" : 19127,
+		"crime_ct" : 1043
+	},
+	{
+		"zipcode" : 19128,
+		"crime_ct" : 1117
+	},
+	{
+		"zipcode" : 19153,
+		"crime_ct" : 1165
+	},
+	{
+		"zipcode" : 19111,
+		"crime_ct" : 1231
+	},
+	{
+		"zipcode" : 19150,
+		"crime_ct" : 1381
+	},
+	{
+		"zipcode" : 19119,
+		"crime_ct" : 1530
+	},
+	{
+		"zipcode" : 19136,
+		"crime_ct" : 1705
+	},
+	{
+		"zipcode" : 19126,
+		"crime_ct" : 1825
+	},
+	{
+		"zipcode" : 19135,
+		"crime_ct" : 2675
+	},
+	{
+		"zipcode" : 19120,
+		"crime_ct" : 2766
+	},
+	{
+		"zipcode" : 19149,
+		"crime_ct" : 2816
+	},
+	{
+		"zipcode" : 19122,
+		"crime_ct" : 2947
+	},
+	{
+		"zipcode" : 19151,
+		"crime_ct" : 2975
+	},
+	{
+		"zipcode" : 19138,
+		"crime_ct" : 3094
+	},
+	{
+		"zipcode" : 19130,
+		"crime_ct" : 3110
+	},
+	{
+		"zipcode" : 19106,
+		"crime_ct" : 3161
+	},
+	{
+		"zipcode" : 19123,
+		"crime_ct" : 3174
+	},
+	{
+		"zipcode" : 19147,
+		"crime_ct" : 3513
+	},
+	{
+		"zipcode" : 19125,
+		"crime_ct" : 3523
+	},
+	{
+		"zipcode" : 19141,
+		"crime_ct" : 3821
+	},
+	{
+		"zipcode" : 19144,
+		"crime_ct" : 3881
+	},
+	{
+		"zipcode" : 19146,
+		"crime_ct" : 3938
+	},
+	{
+		"zipcode" : 19148,
+		"crime_ct" : 3940
+	},
+	{
+		"zipcode" : 19142,
+		"crime_ct" : 4031
+	},
+	{
+		"zipcode" : 19145,
+		"crime_ct" : 4244
+	},
+	{
+		"zipcode" : 19131,
+		"crime_ct" : 4296
+	},
+	{
+		"zipcode" : 19133,
+		"crime_ct" : 4567
+	},
+	{
+		"zipcode" : 19124,
+		"crime_ct" : 4716
+	},
+	{
+		"zipcode" : 19121,
+		"crime_ct" : 4813
+	},
+	{
+		"zipcode" : 19104,
+		"crime_ct" : 4881
+	},
+	{
+		"zipcode" : 19143,
+		"crime_ct" : 4979
+	},
+	{
+		"zipcode" : 19140,
+		"crime_ct" : 5160
+	},
+	{
+		"zipcode" : 19132,
+		"crime_ct" : 5592
+	},
+	{
+		"zipcode" : 19103,
+		"crime_ct" : 5648
+	},
+	{
+		"zipcode" : 19134,
+		"crime_ct" : 8295
+	},
+	{
+		"zipcode" : 19102,
+		"crime_ct" : 9710
+	},
+	{
+		"zipcode" : 19107,
+		"crime_ct" : 9903
+	},
+	{
+		"zipcode" : 19139,
+		"crime_ct" : 10533
+	}
+]
