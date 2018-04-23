@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Search Page</title>
+	
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body ng-app="TrendViewer">
+	<div ng-controller="nController">
+		<form name="queryForm">
+			<input type="text" name="year" placeholder="Year (YYYY)" ng-model="q">
+			<input type="text" name="month" placeholder="Month (MM)" ng-model="r">
+			<input type="text" name="day" placeholder="Day (DD)" ng-model="s">
+			<button ng-click="doSearch(queryForm.year.$viewValue, queryForm.month.$viewValue, queryForm.day.$viewValue)">Search</button>
+		</form>
+		<table>
+			<thead>
+                <tr>
+                   <th ng-repeat="header in ['Zipcode', 'Market Indicator']"  
+                     class="{{header.name}}" custom-sort order="header.name" sort="sort"
+                    >{{ header.name }}</th> 
+                  </tr>
+            </thead>
+  			<tr ng-repeat="x in t ">
+    			<td>{{ x.zipcode }}</td>
+    			<td>{{ x.market_indicator }}</td>
+  			</tr>
+		</table>
+	</div>
+	
+<!--	<script type="text/javascript" src="angular.min.js"></script>-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  	<script src="js/materialize.js"></script>
+  	<script src="js/init.js"></script>
+	<script src="/zipcode_trends.js"></script>
+</body>
+</html>

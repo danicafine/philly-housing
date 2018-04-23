@@ -103,6 +103,41 @@ app.get('/neighborhood_crimes.js', function(request, response) {
 	response.sendFile(__dirname + '/js/neighborhood_crimes.js')
 })
 
+app.get('/zipcode_trends', function(request, response) {
+	response.sendFile(__dirname + '/' + 'zipcode_trends.html')
+})
+
+app.get('/zipcode_trends.js', function(request, response) {
+	response.sendFile(__dirname + '/js/zipcode_trends.js')
+})
+
+app.get('/zipcode_trends/:date', function(request, response) {
+	var text = "select\
+         substr(l.zipcode, 1, 5) as zipcode,\
+         avg(ps.sale_price / pa.market_value) as market_indicator\
+     from property_sold ps\
+     join property_assessed pa on\
+          pa.property_id = ps.property_id\
+     join property_location_xref px on\
+          ps.property_id = px.property_id\
+     join locations l on\
+          l.latitude = px.latitude and\
+          l.longitude = px.longitude\
+     where ps.date >= " + request.params.date + "\
+     group by substr(l.zipcode, 1, 5)\
+     having avg(ps.sale_price / pa.market_value) < 1\
+	 order by market_indicator desc"
+	console.log(text);
+	conn.query(text, function(err, rows, fields) {
+		console.log("query complete")
+		if (err) console.log(err);
+		else {
+			console.log(rows);
+			response.json(rows);
+		}
+	})
+})
+
 app.get('/q1_cache.json', function(request, response) {
 	response.sendFile(__dirname + '/json/q1_cache.json')
 })
