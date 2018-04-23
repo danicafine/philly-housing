@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Search Page</title>
+	
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body ng-app="CrimeViewer">
+	<div ng-controller="nController">
+<!--
+		<input type="text"
+			placeholder="Search by Station Name"
+			onfocus="this.placeholder = ''"
+			ng-model="test.zip">
+-->		<div style = "display: flex;flex-direction: row;width:100%">
+			<label style="min-width:11.5%">Zipcode</label>
+			<input  type="text"
+				   display="inline"
+			id="zipcode"
+			defaultValue="Filter by Zipcode"
+			placeholder="Filter by Zipcode"
+			maxlength="30"
+				   ng-model="test.zipcode">
+		</div>
+<!--			<span></span>-->
+<!--		<div style = "float:left, max-width=150px">-->
+		<div style = "display: flex;flex-direction: row;width:100%">
+			<label style="width:30%">Minimum Crime Rate per Year</label>
+			<input type="text"
+				   display="inline"
+			maxlength='30'
+			id='mkt'
+			placeholder="Min Crime Rate"
+			ng-model="test.min_market">
+			<span></span>
+			<label style="width:30%">Maximum Crime Rate per Year</label>
+			<input type="text"
+				   display="inline"
+			maxlength='30'
+			id='mkt'
+			placeholder="Max Crime Rate"
+			ng-model="test.max_market">
+		</div>
+<!--		</div>-->
+		<table>
+			<thead>
+                <tr>
+                   <th ng-repeat="header in headers"  
+                     class="{{header.name}}" custom-sort order="header.name" sort="sort"
+                    >{{ header.name }}</th> 
+                  </tr>
+            </thead>
+  			<tr ng-repeat="x in data | filter:byRange('crime_ct', test.min_market, test.max_market) | filter : test.zipcode">
+    			<td>{{ x.zipcode }}</td>
+    			<td>{{ x.crime_ct }}</td>
+    		</tr>
+		</table>
+	</div>
+	
+<!--	<script type="text/javascript" src="angular.min.js"></script>-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  	<script src="js/materialize.js"></script>
+  	<script src="js/init.js"></script>
+	<script src="/neighborhood_crimes.js"></script>
+</body>
+</html>

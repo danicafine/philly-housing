@@ -95,6 +95,14 @@ app.get('/nearby_schools/:size/', function(request, response) {
 	})
 })
 
+app.get('/neighborhood_crimes', function(request, response) {
+	response.sendFile(__dirname + '/' + 'neighborhood_crimes.html')
+})
+
+app.get('/neighborhood_crimes.js', function(request, response) {
+	response.sendFile(__dirname + '/js/neighborhood_crimes.js')
+})
+
 app.get('/q1_cache.json', function(request, response) {
 	response.sendFile(__dirname + '/json/q1_cache.json')
 })
