@@ -191,6 +191,9 @@ app.get('/safety_trends/:start/:end', function(request, response) {
 	})
 })
 
+app.get('/queries', function(request, response) {
+	response.sendFile(__dirname + '/' + 'queries.html')
+})
 
 app.get('/q1_cache.json', function(request, response) {
 	response.sendFile(__dirname + '/json/q1_cache.json')

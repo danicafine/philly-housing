@@ -84,11 +84,11 @@
 }
 
 .red {
-  background-color: #F44336 !important;
+  background-color: #74000e !important;
 }
 
 .red-text {
-  color: #F44336 !important;
+  color: #74000e !important;
 }
 
 .red.lighten-5 {
@@ -644,7 +644,7 @@
 }
 
 .blue {
-  background-color: #2196F3 !important;
+  background-color: #000f3a !important;
 }
 
 .blue-text {
@@ -684,7 +684,7 @@
 }
 
 .blue.lighten-1 {
-  background-color: #42A5F5 !important;
+  background-color: #00144d !important;
 }
 
 .blue-text.text-lighten-1 {

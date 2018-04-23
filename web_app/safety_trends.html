@@ -23,14 +23,13 @@
 		<table>
 			<thead>
                 <tr>
-                   <th ng-repeat="header in ['Zipcode', 'Month','Market Indicator']"  
+                   <th ng-repeat="header in ['Zipcode', 'Market Indicator']"  
                      class="{{header}}" custom-sort order="header.name" sort="sort"
                     >{{ header}}</th> 
                   </tr>
             </thead>
   			<tr ng-repeat="x in t ">
     			<td>{{ x.zipcode }}</td>
-				<td>{{ x.month }}</td>
     			<td>{{ x.prcnt_change }}</td>
   			</tr>
 		</table>
