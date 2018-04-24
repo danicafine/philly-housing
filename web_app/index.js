@@ -12,8 +12,12 @@ conn = mysql.createConnection({
 			  host : 'mysql450.cgqpuarl2hxx.us-east-1.rds.amazonaws.com'});
 conn.query("USE mysql450")
 
-app.get('/', function(request, response) {
-	response.sendFile(__dirname + '/' + 'index.html')
+app.get('/yes', function(request, response) {
+	response.sendFile(__dirname + '/' + 'Philly_Trends.html')
+})
+
+app.get('/Philly_Trends.js', function(request, response) {
+	response.sendFile(__dirname + '/' + 'js/Philly_Trends.js')
 })
 
 app.get('/neighborhood_prices', function(request, response) {
@@ -207,3 +211,4 @@ app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
   console.log(__dirname)
 })
+

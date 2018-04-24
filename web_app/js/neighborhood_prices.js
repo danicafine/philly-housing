@@ -9,10 +9,7 @@ app.controller('nController', function($scope, $http) {
 		return minValue <= item[fieldName] && item[fieldName] <= maxValue;
 	  };
 	};
-	  return function predicateFunc(item) {
-		return minValue <= item[fieldName] && item[fieldName] <= maxValue;
-	  };
-	};
+
     var request = $http.get("/json/q1_cache.json");
     request.success(function(data) {
         $scope.data = data;
