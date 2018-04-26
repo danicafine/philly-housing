@@ -1,0 +1,455 @@
+// MAIN
+
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;-$#,##0.00';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET FirstWeekDay=6;
+SET BrokenWeeks=1;
+SET ReferenceDay=0;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-US';
+SET CreateSearchIndexOnReload=1;
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+
+LIB CONNECT TO 'mysql550';
+
+
+// PROPERTIES
+
+Housing:
+LOAD 
+    property_id as [Property ID],
+    'Property ' & property_id as [Object ID],
+    'Property' as [Object Type],
+    CAPITALIZE(building_description) as [Building Description],
+    CAPITALIZE(category_description) as [Category Description],
+    fireplaces as Fireplaces,
+    garage_spaces as [Garage Spaces],
+    bathroom_ct as [Bathroom Count],
+    bedroom_ct as [Bedroom Count],
+    room_ct as [Room Count],
+    story_ct as [Story Count],
+    livable_area as [Livable Area],
+    year_built as [Year Built],
+    street_address as [Housing Street Address],
+    city as [Housing City],
+    state as [Housing State],
+    left(trim(zipcode),5) as [Housing Zipcode],
+    GeoMakePoint(latitude, longitude) as [Housing GeoPoint]
+;
+SQL
+SELECT 
+    p.`property_id`,
+    `building_description`,
+    `category_description`,
+    `fireplaces`, 
+    `garage_spaces`,
+    `bathroom_ct`, 
+    `bedroom_ct`, 
+    `room_ct`, 
+    `story_ct`, 
+    `livable_area`, 
+    `year_built`,
+    l.latitude,
+    l.longitude,
+    l.`street_address`,
+    l.city,
+    l.state,
+    l.zipcode    
+FROM mysql450.properties p
+JOIN mysql450.`property_location_xref` x ON
+     p.`property_id` = x.`property_id`
+JOIN mysql450.locations l ON
+     l.latitude = x.latitude AND
+     l.longitude = x.longitude;
+
+// Locations_Xref_Temp:
+// LOAD
+//     'Property ' & property_id as [Object ID],
+//     GeoMakePoint(latitude, longitude) as latitude_longitude
+// ;
+// SQL
+// SELECT
+//     `property_id`,
+//     latitude, 
+//     longitude
+// FROM mysql450.`property_location_xref`; 
+
+Housing_Sales:
+LOAD 
+    property_id as [Property ID],
+    date#(date, 'YYYYMMDD') as [Sales Date Key],
+    sale_price as [Sale Price]
+;
+SQL
+SELECT 
+    `property_id`,
+    date,
+    `sale_price`
+FROM mysql450.`property_sold`;
+
+Housing_Assessments:
+LOAD 
+    property_id as [Property ID],
+    date#(date, 'YYYYMMDD') as [Assessed Date Key],
+    market_value as [Market Value]
+;
+SQL
+SELECT 
+    `property_id`,
+    date,
+    `market_value`
+FROM mysql450.`property_assessed`;  
+
+
+
+// CRIMES
+
+Crimes:
+LOAD 
+    crime_id as [Crime ID], 
+    'Crime ' & crime_id as [Object ID],
+    'Crime' as [Object Type],
+    description as Description,
+    date#(date, 'YYYYMMDD') as [Crimes Date Key],
+    street_address as [Crime Street Address],
+    city as [Crime City],
+    state as [Crime State],
+    left(trim(zipcode),5) as [Crime Zipcode],
+    GeoMakePoint(latitude, longitude) as [Crime GeoPoint]
+;
+SQL
+SELECT 
+    c.`crime_id`,
+    description,
+    date,
+    l.latitude,
+    l.longitude,
+    l.`street_address`,
+    l.city,
+    l.state,
+    l.zipcode
+FROM mysql450.crimes c
+JOIN mysql450.`crime_location_xref` x ON
+     c.`crime_id` = x.`crime_id`
+JOIN mysql450.locations l ON
+     l.latitude = x.latitude AND
+     l.longitude = x.longitude;
+
+// CONCATENATE(Locations_Xref_Temp)
+// LOAD
+//     'Crime ' & crime_id as [Object ID],
+//     GeoMakePoint(latitude, longitude) as latitude_longitude
+// ;
+// SQL
+// SELECT
+//     `crime_id`,
+//     latitude, 
+//     longitude
+// FROM mysql450.`crime_location_xref`; 
+
+
+
+// SCHOOLS
+Schools:
+LOAD
+    school_id as [School ID], 
+    'School ' & school_id as [Object ID],
+    'School' as [Object Type] ,
+    name as [School Name],
+    phone as Phone,
+    grade_range as [Grade Range],
+    grade_level as [Grade Level],
+    size as Size,
+    type as [School Type],
+    subtype as [School Subtype]  ,
+    street_address as [School Street Address],
+    city as [School City],
+    state as [School State],
+    left(trim(zipcode),5) as [School Zipcode],
+    GeoMakePoint(latitude, longitude) as [School GeoPoint]
+;
+SQL
+SELECT
+    s.`school_id`, 
+    name, 
+    phone,
+    `grade_range`, 
+    `grade_level`, 
+    size,
+    type,
+    subtype,
+    l.latitude,
+    l.longitude,
+    l.`street_address`,
+    l.city,
+    l.state,
+    l.zipcode  
+FROM mysql450.schools s
+JOIN mysql450.`school_location_xref` x ON
+     s.`school_id` = x.`school_id`
+JOIN mysql450.locations l ON
+     l.latitude = x.latitude AND
+     l.longitude = x.longitude;
+
+// CONCATENATE(Locations_Xref_Temp)
+// LOAD
+//     'School ' & school_id as [Object ID],
+//     GeoMakePoint(latitude, longitude) as latitude_longitude
+// ;
+// SQL
+// SELECT
+//     `school_id`,
+//     latitude, 
+//     longitude
+// FROM mysql450.`school_location_xref`; 
+
+
+
+// SEPTA Locations
+
+SEPTA:
+LOAD 
+    septa_id as [SEPTA ID], 
+    'SEPTA ' & septa_id as [Object ID],
+    'SEPTA' as [Object Type],
+    location_name as [SEPTA Location Name],
+    location_type as [SEPTA Location Type],
+    street_address as [SEPTA Street Address],
+    city as [SEPTA City],
+    state as [SEPTA State],
+    left(trim(zipcode),5) as [SEPTA Zipcode],
+    GeoMakePoint(latitude, longitude) as [SEPTA GeoPoint]
+;
+SQL
+SELECT
+    s.`septa_id`,
+    `location_name`,
+    `location_type`,
+    l.latitude,
+    l.longitude,
+    l.`street_address`,
+    l.city,
+    l.state,
+    l.zipcode  
+FROM mysql450.`septa_locations` s
+JOIN mysql450.`septa_location_xref` x ON
+     s.`septa_id` = x.`septa_id`
+JOIN mysql450.locations l ON
+     l.latitude = x.latitude AND
+     l.longitude = x.longitude;
+
+// CONCATENATE(Locations_Xref_Temp)
+// LOAD
+//     'SEPTA ' & septa_id as [Object ID],
+//     GeoMakePoint(latitude, longitude) as latitude_longitude
+// ;
+// SQL
+// SELECT
+//     `septa_id`,
+//     latitude, 
+//     longitude
+// FROM mysql450.`septa_location_xref`; 
+
+
+
+// LOCATIONS
+
+// NoConcatenate
+// Locations_Xref:
+// LOAD 
+// 	DISTINCT
+//     *
+// RESIDENT Locations_Xref_Temp;
+
+// DROP TABLE Locations_Xref_Temp;
+
+// Locations:
+// LOAD 
+// 	DISTINCT
+// 	street_address as [Street Address],
+//     city as City,
+//     state as State,
+//     left(trim(zipcode),5) as Zipcode,
+//     GeoMakePoint(latitude, longitude) as latitude_longitude
+// ;
+// SQL
+// SELECT
+// 	latitude,
+//     longitude,
+// 	`street_address`,
+//     city,
+//     state,
+//     zipcode
+// FROM mysql450.locations;
+
+
+
+// OBJECTS
+
+Objects:
+LOAD 
+    DISTINCT
+    [Object ID],
+    [Object Type]
+RESIDENT Housing;
+
+Concatenate(Objects)
+LOAD 
+    DISTINCT
+    [Object ID],
+    [Object Type]
+RESIDENT Crimes;
+
+Concatenate(Objects)
+LOAD 
+    DISTINCT
+    [Object ID],
+    [Object Type]
+RESIDENT Schools;
+
+Concatenate(Objects)
+LOAD 
+    DISTINCT
+    [Object ID],
+    [Object Type]
+RESIDENT SEPTA;
+
+DROP FIELD [Object Type] FROM Housing;
+DROP FIELD [Object Type] FROM Crimes;
+DROP FIELD [Object Type] FROM Schools;
+DROP FIELD [Object Type] FROM SEPTA;
+
+
+
+// SALES DATES
+
+let vToday = Date(Today(),'MM/DD/YYYY');
+
+CalendarMasterSales:
+LOAD
+	*,
+   dual(left([Sales Month-Year],1),Date(MonthStart([Sales Event Date]), 'MMM-YYYY')) as [Sales Month Name Short],
+   dual([Sales Year] & '-' & [Sales Quarter], [Sales Year] & Ceil(Month([Sales Event Date]) / 3)) as [Sales Year-Quarter], // Excludes Weekends	
+   if(weekday([Sales Date])<5,[Sales Date],null()) as [Sales Weekday Date],                                 // weekday(date) Week day. Returns an integer between 0-6. 
+   Date(WeekStart([Sales Date],0,-1),'MM/DD/YY') as [Sales Week Starting],	                       // Changed offset to start on a Sunday vs Monday
+   Date(WeekEnd([Sales Date],0,-1),'MM/DD/YY') as [Sales Week Ending],	                           // Changed offset to start on a Sunday vs Monday    
+   if( InYearToDate([Sales Event Date],'$(vToday)',-1),1,0) as [Sales IsInPriorYTD],
+   if( InYearToDate([Sales Event Date],'$(vToday)',0),1,0) as [Sales IsInYTD],   
+   If( DayNumberOfQuarter([Sales Event Date]) <= DayNumberOfQuarter('$(vToday)'), 1, 0) as [Sales IsInQTD],
+   If( Day([Sales Event Date]) <= Day('$(vToday)'), 1, 0) as [Sales IsInMTD]
+;
+LOAD
+    [Sales Date Key],
+    Date([Sales Event Date],'MM/DD/YY') as [Sales Date],
+    Date([Sales Event Date]) AS [Sales Event Date],
+    Year([Sales Event Date]) AS [Sales Year],
+    'Q' & Ceil(Month([Sales Event Date]) / 3) AS [Sales Quarter], 
+    Date(MonthStart([Sales Event Date]), 'MMM-YYYY') as [Sales Month-Year],       
+    Month([Sales Event Date]) As [Sales Month],
+    num(Month([Sales Event Date])) As [Sales MonthNum],
+    Day([Sales Event Date]) As [Sales Day],
+    WeekDay([Sales Event Date]) as [Sales WeekDay], 
+    Week(Date([Sales Event Date],'YYYYMMDD')) & '-' & WeekYear(Date([Sales Event Date], 'YYYYMMDD')) as [Sales Week-Year],           
+    Week([Sales Event Date]) As [Sales Week]
+    ;
+LOAD
+    [Sales Date Key],
+    [Sales Date Key] as [Sales Event Date] 
+;
+LOAD
+    NUM(fieldvalue('Sales Date Key',iterno())) as [Sales Date Key]
+AUTOGENERATE 1
+WHILE len(fieldvalue('Sales Date Key',iterno()))
+;
+
+
+
+// ASSESMENT DATES
+
+let vToday = Date(Today(),'MM/DD/YYYY');
+
+CalendarMasterAssessed:
+LOAD
+	*,
+   dual(left([Assessed Month-Year],1),Date(MonthStart([Assessed Event Date]), 'MMM-YYYY')) as [Assessed Month Name Short],
+   dual([Assessed Year] & '-' & [Assessed Quarter], [Assessed Year] & Ceil(Month([Assessed Event Date]) / 3)) as [Assessed Year-Quarter], // Excludes Weekends	
+   if(weekday([Assessed Date])<5,[Assessed Date],null()) as [Assessed Weekday Date],                                 // weekday(date) Week day. Returns an integer between 0-6. 
+   Date(WeekStart([Assessed Date],0,-1),'MM/DD/YY') as [Assessed Week Starting],	                       // Changed offset to start on a Sunday vs Monday
+   Date(WeekEnd([Assessed Date],0,-1),'MM/DD/YY') as [Assessed Week Ending],	                           // Changed offset to start on a Sunday vs Monday    
+   if( InYearToDate([Assessed Event Date],'$(vToday)',-1),1,0) as [Assessed IsInPriorYTD],
+   if( InYearToDate([Assessed Event Date],'$(vToday)',0),1,0) as [Assessed IsInYTD],   
+   If( DayNumberOfQuarter([Assessed Event Date]) <= DayNumberOfQuarter('$(vToday)'), 1, 0) as [Assessed IsInQTD],
+   If( Day([Assessed Event Date]) <= Day('$(vToday)'), 1, 0) as [Assessed IsInMTD]
+;
+LOAD
+    [Assessed Date Key],
+    Date([Assessed Event Date],'MM/DD/YY') as [Assessed Date],
+    Date([Assessed Event Date]) AS [Assessed Event Date],
+    Year([Assessed Event Date]) AS [Assessed Year],
+    'Q' & Ceil(Month([Assessed Event Date]) / 3) AS [Assessed Quarter], 
+    Date(MonthStart([Assessed Event Date]), 'MMM-YYYY') as [Assessed Month-Year],       
+    Month([Assessed Event Date]) As [Assessed Month],
+    num(Month([Assessed Event Date])) As [Assessed MonthNum],
+    Day([Assessed Event Date]) As [Assessed Day],
+    WeekDay([Assessed Event Date]) as [Assessed WeekDay], 
+    Week(Date([Assessed Event Date],'YYYYMMDD')) & '-' & WeekYear(Date([Assessed Event Date], 'YYYYMMDD')) as [Assessed Week-Year],           
+    Week([Assessed Event Date]) As [Assessed Week]
+    ;
+LOAD
+    [Assessed Date Key],
+    [Assessed Date Key] as [Assessed Event Date] 
+;
+LOAD
+    NUM(fieldvalue('Assessed Date Key',iterno())) as [Assessed Date Key]
+AUTOGENERATE 1
+WHILE len(fieldvalue('Assessed Date Key',iterno()))
+;
+
+
+// CRIMES DATES
+
+CalendarMasterCrimes:
+LOAD
+    *,
+   dual(left([Crimes Month-Year],1),Date(MonthStart([Crimes Event Date]), 'MMM-YYYY')) as [Crimes Month Name Short],
+   dual([Crimes Year] & '-' & [Crimes Quarter], [Crimes Year] & Ceil(Month([Crimes Event Date]) / 3)) as [Crimes Year-Quarter], // Excludes Weekends	
+   if(weekday([Crimes Date])<5,[Crimes Date],null()) as [Crimes Weekday Date],                                 // weekday(date) Week day. Returns an integer between 0-6. 
+   Date(WeekStart([Crimes Date],0,-1),'MM/DD/YY') as [Crimes Week Starting],	                       // Changed offset to start on a Sunday vs Monday
+   Date(WeekEnd([Crimes Date],0,-1),'MM/DD/YY') as [Crimes Week Ending],	                           // Changed offset to start on a Sunday vs Monday    
+   if( InYearToDate([Crimes Event Date],'$(vToday)',-1),1,0) as [Crimes IsInPriorYTD],
+   if( InYearToDate([Crimes Event Date],'$(vToday)',0),1,0) as [Crimes IsInYTD],   
+   If( DayNumberOfQuarter([Crimes Event Date]) <= DayNumberOfQuarter('$(vToday)'), 1, 0) as [Crimes IsInQTD],
+   If( Day([Crimes Event Date]) <= Day('$(vToday)'), 1, 0) as [Crimes IsInMTD]
+;
+LOAD
+    [Crimes Date Key],
+    Date([Crimes Event Date],'MM/DD/YY') as [Crimes Date],
+    Date([Crimes Event Date]) AS [Crimes Event Date],
+    Year([Crimes Event Date]) AS [Crimes Year],
+    'Q' & Ceil(Month([Crimes Event Date]) / 3) AS [Crimes Quarter], 
+    Date(MonthStart([Crimes Event Date]), 'MMM-YYYY') as [Crimes Month-Year],       
+    Month([Crimes Event Date]) As [Crimes Month],
+    num(Month([Crimes Event Date])) As [Crimes MonthNum],
+    Day([Crimes Event Date]) As [Crimes Day],
+    WeekDay([Crimes Event Date]) as [Crimes WeekDay], 
+    Week(Date([Crimes Event Date],'YYYYMMDD')) & '-' & WeekYear(Date([Crimes Event Date], 'YYYYMMDD')) as [Crimes Week-Year],           
+    Week([Crimes Event Date]) As [Crimes Week]
+    ;
+LOAD
+    [Crimes Date Key],
+    [Crimes Date Key] as [Crimes Event Date] 
+;
+LOAD
+    NUM(fieldvalue('Crimes Date Key',iterno())) as [Crimes Date Key]
+AUTOGENERATE 1
+WHILE len(fieldvalue('Crimes Date Key',iterno()))
+;
