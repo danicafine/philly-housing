@@ -2,6 +2,6 @@
   "name": "Philly Housing",
   "description": "CIS 550 Project",
   "repository": "https://github.com/danicafine/philly-housing/tree/master/web_app",
-  "logo": "https://rawgit.com/heroku/node-js-sample/master/public/node.svg",
+  "logo": "https://cdn.jsdelivr.net/gh/heroku/node-js-sample/public/node.svg",
   "keywords": ["node", "express", "static"]
 }
